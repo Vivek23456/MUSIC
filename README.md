@@ -1,73 +1,98 @@
-# Welcome to your Lovable project
+ 🎵 MelodyMint: Decentralized Music Platform
 
-## Project info
+A decentralized music platform built on blockchain technology that allows artists to publish, monetize, and share their music securely while giving listeners direct access to authentic tracks.
 
-**URL**: https://lovable.dev/projects/dda509fb-9072-4253-ac68-992dd3c7d931
+Features
 
-## How can I edit this code?
+Blockchain-Powered: Music ownership and transactions are securely recorded on the blockchain.
 
-There are several ways of editing your application.
+Artist Monetization: Artists earn directly through tokenized transactions without intermediaries.
 
-**Use Lovable**
+Decentralized Storage: Tracks are stored using decentralized solutions like IPFS for censorship-resistant access.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/dda509fb-9072-4253-ac68-992dd3c7d931) and start prompting.
+Fast & Accessible: Optimized for performance and low latency, enabling smooth streaming on web and mobile.
 
-Changes made via Lovable will be committed automatically to this repo.
+Mobile App: Available on Android (Play Store) with plans for iOS deployment.
 
-**Use your preferred IDE**
+Smart Contracts: Handles royalties, ownership, and licensing automatically.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Tech Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Frontend: React + Vite + Tailwind CSS
 
-Follow these steps:
+Backend: Node.js / Express (optional)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Blockchain: Solana / Ethereum (your choice)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Smart Contracts: Solidity / Rust
 
-# Step 3: Install the necessary dependencies.
-npm i
+Storage: IPFS / Arweave
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+Wallet Integration: WalletConnect / Phantom
+
+Installation
+
+Clone the repository
+
+git clone https://github.com/yourusername/melody-mint.git
+cd melody-mint
+
+
+Install dependencies
+
+npm install
+
+
+Run the development server
+
 npm run dev
-```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Build for production
 
-**Use GitHub Codespaces**
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Usage
 
-## What technologies are used for this project?
+Connect your wallet (e.g., Phantom, MetaMask).
 
-This project is built with:
+Upload your tracks and mint them as NFTs.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Explore and stream music from other artists.
 
-## How can I deploy this project?
+Receive payments directly in crypto for your music.
 
-Simply open [Lovable](https://lovable.dev/projects/dda509fb-9072-4253-ac68-992dd3c7d931) and click on Share -> Publish.
+Folder Structure
+/src
+  /components       # React components
+  /pages            # App pages
+  /contracts        # Smart contracts
+  /utils            # Helper functions
+/public             # Public assets
 
-## Can I connect a custom domain to my Lovable project?
+Contributing
 
-Yes, you can!
+We welcome contributions!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Fork the repository
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Create a new branch (git checkout -b feature/xyz)
+
+Commit your changes (git commit -m "Add xyz feature")
+
+Push the branch (git push origin feature/xyz)
+
+Open a Pull Request
+
+License
+
+MIT License. See LICENSE
+ for details.
+
+Contact
+
+Project Maintainer: Your Name
+
+Email: your.email@example.com
+
+GitHub: https://github.com/yourusername
