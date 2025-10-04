@@ -6,12 +6,9 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/hooks/use-toast";
 import { Upload, Music, Loader2 } from "lucide-react";
-import {
-  uploadToIPFS,
-  validateAudioFile,
-  extractAudioDuration,
-  UploadProgress,
-} from "@/utils/ipfs";
+
+import { uploadToNFTStorage } from "@/utils/nftStorage";
+import { validateAudioFile, extractAudioDuration } from "@/utils/ipfs";
 import { supabase } from "@/integrations/supabase/client";
 
 interface TrackUploadProps {
@@ -34,9 +31,7 @@ export const TrackUpload = ({ artistId, onUploadComplete }: TrackUploadProps) =>
     try {
       validateAudioFile(selectedFile);
       setFile(selectedFile);
-      if (!title) {
-        setTitle(selectedFile.name.replace(/\.[^/.]+$/, ""));
-      }
+      if (!title) setTitle(selectedFile.name.replace(/\.[^/.]+$/, ""));
     } catch (error: any) {
       toast({
         title: "Invalid file",
@@ -63,20 +58,20 @@ export const TrackUpload = ({ artistId, onUploadComplete }: TrackUploadProps) =>
       // Extract audio duration
       const duration = await extractAudioDuration(file);
 
-      // Upload to IPFS
-      const ipfsResult = await uploadToIPFS(file, (progress: UploadProgress) => {
-        setUploadProgress(progress.percentage);
-      });
+      // Upload to NFT.Storage
+      const nftResult = await uploadToNFTStorage(file);
+      setUploadProgress(100);
 
-      // Save to database
+      // Save to Supabase
       const { error } = await supabase.from("tracks").insert({
         artist_id: artistId,
         title,
         description,
         genre,
-        ipfs_cid: ipfsResult.cid,
+        ipfs_cid: nftResult.cid,
+        url: nftResult.url,
         duration,
-        file_size: ipfsResult.size,
+        file_size: file.size,
       });
 
       if (error) throw error;
@@ -93,9 +88,7 @@ export const TrackUpload = ({ artistId, onUploadComplete }: TrackUploadProps) =>
       setGenre("");
       setUploadProgress(0);
 
-      if (onUploadComplete) {
-        onUploadComplete();
-      }
+      if (onUploadComplete) onUploadComplete();
     } catch (error: any) {
       console.error("Upload error:", error);
       toast({
@@ -117,9 +110,7 @@ export const TrackUpload = ({ artistId, onUploadComplete }: TrackUploadProps) =>
           </div>
           <div>
             <h3 className="text-xl font-semibold">Upload Track</h3>
-            <p className="text-sm text-muted-foreground">
-              Share your music with the world
-            </p>
+            <p className="text-sm text-muted-foreground">Share your music with the world</p>
           </div>
         </div>
 
@@ -139,12 +130,8 @@ export const TrackUpload = ({ artistId, onUploadComplete }: TrackUploadProps) =>
               <p className="text-sm font-medium">{file.name}</p>
             ) : (
               <>
-                <p className="text-sm font-medium mb-1">
-                  Click to upload or drag and drop
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  MP3, WAV, or OGG (max 100MB)
-                </p>
+                <p className="text-sm font-medium mb-1">Click to upload or drag and drop</p>
+                <p className="text-xs text-muted-foreground">MP3, WAV, or OGG (max 100MB)</p>
               </>
             )}
           </label>
@@ -153,9 +140,7 @@ export const TrackUpload = ({ artistId, onUploadComplete }: TrackUploadProps) =>
         {/* Track Details */}
         <div className="space-y-3">
           <div>
-            <label className="text-sm font-medium mb-1.5 block">
-              Track Title *
-            </label>
+            <label className="text-sm font-medium mb-1.5 block">Track Title *</label>
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -177,9 +162,7 @@ export const TrackUpload = ({ artistId, onUploadComplete }: TrackUploadProps) =>
           </div>
 
           <div>
-            <label className="text-sm font-medium mb-1.5 block">
-              Description
-            </label>
+            <label className="text-sm font-medium mb-1.5 block">Description</label>
             <Textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -194,7 +177,7 @@ export const TrackUpload = ({ artistId, onUploadComplete }: TrackUploadProps) =>
         {uploading && (
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Uploading to IPFS...</span>
+              <span className="text-muted-foreground">Uploading to NFT.Storage...</span>
               <span className="font-medium">{Math.round(uploadProgress)}%</span>
             </div>
             <Progress value={uploadProgress} className="h-2" />
